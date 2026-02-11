@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeStream | One Platform, One Life</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #d62828;
+            --bg-page: #ffffff;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            --border-color: rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] {
+            --bg-page: #121212;
+            --text-color: #f8f9fa;
+            --card-bg: #1e1e1e;
+            --border-color: rgba(255,255,255,0.1);
+        }
+
+        body { 
+            font-family: 'Open Sans', sans-serif; 
+            background-color: var(--bg-page); 
+            color: var(--text-color); 
+            transition: 0.3s ease;
+            scroll-behavior: smooth;
+        }
+
+        /* Nav & Sections */
+        .navbar { background: var(--card-bg) !important; border-bottom: 1px solid var(--border-color); }
+        .nav-link { color: var(--text-color) !important; font-weight: 600; }
+        .section-padding { padding: 100px 0; border-bottom: 1px solid var(--border-color); }
+        
+        .feature-card { 
+            background: var(--card-bg); 
+            border-radius: 15px; 
+            padding: 30px; 
+            border: 1px solid var(--border-color);
+            height: 100%;
+        }
+
+        /* Form & Table Visibility */
+        .form-control, .form-select { 
+            background-color: transparent !important; 
+            border: 1px solid var(--border-color); 
+            color: var(--text-color) !important;
+        }
+        .table { color: var(--text-color) !important; border-color: var(--border-color); }
+
+        /* Footer Icon Visibility Fix */
+        .footer-icon {
+            color: var(--text-color) !important;
+            font-size: 1.5rem;
+            margin: 0 12px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .footer-icon:hover { color: var(--primary) !important; }
+
+        #theme-toggle { cursor: pointer; color: var(--primary); border: none; background: none; font-size: 1.2rem; }
+    </style>
+</head>
+<body data-theme="light">
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-danger" href="#home">LIFESTREAM</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLinks">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navLinks">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link px-3" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#find-donor">Find Donor</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#donate">Donate</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="#contact">Contact</a></li>
+                    <li class="nav-item">
+                        <button id="theme-toggle" onclick="toggleTheme()"><i id="theme-icon" class="fas fa-moon"></i></button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="section-padding text-center">
+        <div class="container py-5">
+            <h1 class="display-3 fw-bold mb-3">Save Life, Give Blood</h1>
+            <p class="lead mb-4">Your contribution can give someone a second chance.</p>
+            <a href="#donate" class="btn btn-danger btn-lg rounded-pill px-5">Join as Donor</a>
+        </div>
+    </section>
+
+    <section id="about" class="section-padding" style="background-color: rgba(214, 40, 40, 0.02);">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-5">About Us</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <i class="fas fa-hand-holding-heart fa-3x text-danger mb-3"></i>
+                        <h4>Our Mission</h4>
+                        <p>To bridge the gap between blood donors and patients in real-time.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <i class="fas fa-globe fa-3x text-danger mb-3"></i>
+                        <h4>Our Vision</h4>
+                        <p>A world where no one has to wait for life-saving blood.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="find-donor" class="section-padding">
+        <div class="container">
+            <h2 class="fw-bold text-center mb-5">Find a Donor</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <label class="form-label">Blood Group</label>
+                        <select class="form-select mb-3" id="filterBG">
+                            <option value="A+">A +ve</option>
+                            <option value="O+">O +ve</option>
+                            <option value="B+">B +ve</option>
+                        </select>
+                        <button class="btn btn-danger w-100" onclick="searchDonors()">Search</button>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="feature-card">
+                        <table class="table">
+                            <thead><tr><th>Name</th><th>Group</th><th>Contact</th></tr></thead>
+                            <tbody id="resultsTable">
+                                <tr><td colspan="3" class="text-center">Search to see results</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="donate" class="section-padding" style="background-color: rgba(214, 40, 40, 0.02);">
+        <div class="container">
+            <h2 class="fw-bold text-center mb-5">Donate Blood (Register)</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="feature-card">
+                        <form id="regForm">
+                            <div class="row g-3">
+                                <div class="col-md-6"><label class="form-label">First Name</label><input type="text" id="regFName" class="form-control" required></div>
+                                <div class="col-md-6"><label class="form-label">Last Name</label><input type="text" id="regLName" class="form-control"></div>
+                                <div class="col-md-6"><label class="form-label">Blood Group</label>
+                                    <select id="regBG" class="form-select" required>
+                                        <option>A+</option><option>O+</option><option>B+</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6"><label class="form-label">Phone</label><input type="text" id="regPhone" class="form-control" required></div>
+                                <div class="col-12"><button type="submit" class="btn btn-danger w-100 mt-3">Register Me</button></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section-padding">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-5">Contact Us</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <input type="text" class="form-control mb-3" placeholder="Name">
+                        <textarea class="form-control mb-3" placeholder="Message"></textarea>
+                        <button class="btn btn-danger w-100">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-5 text-center border-top">
+        <div class="mb-4">
+            <a href="#" class="footer-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="footer-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="footer-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="footer-icon"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="footer-icon"><i class="fab fa-pinterest"></i></a>
+        </div>
+        <p>&copy; 2026 LifeStream. Always here for you.</p>
+    </footer>
+
+    <script>
+        // Dummy Database array
+        let donors = [
+            { name: "Amit Kumar", group: "A+", phone: "9876543210" },
+            { name: "Sita Rao", group: "O+", phone: "8877665544" }
+        ];
+
+        // Search Function
+        function searchDonors() {
+            const bg = document.getElementById('filterBG').value;
+            const table = document.getElementById('resultsTable');
+            const filtered = donors.filter(d => d.group === bg);
+            
+            table.innerHTML = filtered.length ? filtered.map(d => 
+                `<tr><td>${d.name}</td><td>${d.group}</td><td>${d.phone}</td></tr>`
+            ).join('') : `<tr><td colspan="3" class="text-center">No donors found</td></tr>`;
+        }
+
+        // Registration Function
+        document.getElementById('regForm').onsubmit = function(e) {
+            e.preventDefault();
+            const newDonor = {
+                name: document.getElementById('regFName').value + " " + document.getElementById('regLName').value,
+                group: document.getElementById('regBG').value,
+                phone: document.getElementById('regPhone').value
+            };
+            donors.push(newDonor);
+            alert("Registration successful! You are now in our donor list.");
+            this.reset();
+        };
+
+        // Theme Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            icon.classList.toggle('fa-moon', !isDark);
+            icon.classList.toggle('fa-sun', isDark);
+        }
+    </script>
+</body>
+</html>
